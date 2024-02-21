@@ -1,7 +1,5 @@
 # PowerShell Script to Check Windows Defender Firewall with Advanced Security - Private Profile Settings Against CIS Benchmarks for Windows 11 Enterprise
 
-Write-Host "Checking Windows Defender Firewall with Advanced Security - Private Profile settings against CIS Benchmarks..."
-
 # Function to get the firewall setting value from the registry
 function Get-FirewallSetting {
     param (

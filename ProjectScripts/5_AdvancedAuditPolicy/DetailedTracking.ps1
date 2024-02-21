@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the 'Audit PNP Activity' setting
-Write-Host "Checking Advanced Audit Policy Configuration - Detailed Tracking against CIS Benchmarks..."
 
 # Audit PNP Activity
 $auditPnpActivity = Get-AuditPolicySetting "Plug and Play Events"

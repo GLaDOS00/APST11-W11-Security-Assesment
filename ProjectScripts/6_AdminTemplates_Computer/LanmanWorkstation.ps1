@@ -1,28 +1,24 @@
-# Define Group Policy path for Lanman Workstation
-$lanmanWorkstationPolicyPath = "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters"
-
-# Define Group Policy value for Lanman Workstation
-$enableInsecureGuestLogonsValueName = "AllowInsecureGuestAuth"
-
 # Function to check the status of Lanman Workstation Group Policy setting
-function Check-Lanman-Workstation-GPSetting {
+function Check-LanmanWorkstation-GPSetting {
     param (
         [string]$policyPath,
         [string]$valueName,
         [string]$expectedValue,
-        [string]$recommendation
+        [string]$sectionNumber,
+        [string]$description
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
-
-    if ($currentValue -eq $null) {
-        Write-Host "$valueName is not configured. Recommendation: $recommendation"
-    } elseif ($currentValue.$valueName -eq $expectedValue) {
-        Write-Host "$valueName is set to $expectedValue (Meets the recommendation)"
-    } else {
-        Write-Host "$valueName is set to $($currentValue.$valueName) (Does not meet the recommendation. Recommendation: $recommendation)"
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber (L1) Ensure '$description' is set to 'Disabled': $status"
 }
 
-# Check the status of 'Enable insecure guest logons'
-Check-Lanman-Workstation-GPSetting -policyPath $lanmanWorkstationPolicyPath -valueName $enableInsecureGuestLogonsValueName -expectedValue 0 -recommendation "Disable"
+# Define the registry path for Lanman Workstation settings
+$lanmanWorkstationPolicyPath = "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters"
+
+# Check 'Enable insecure guest logons'
+Check-LanmanWorkstation-GPSetting -policyPath $lanmanWorkstationPolicyPath -valueName "AllowInsecureGuestAuth" -expectedValue 0 -sectionNumber "18.6.8.1" -description "Enable insecure guest logons"

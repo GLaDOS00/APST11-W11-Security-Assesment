@@ -16,34 +16,33 @@ function Check-LAPS-GPSettings {
         [string]$policyPath,
         [string]$valueName,
         [string]$expectedValue,
-        [string]$recommendation
+        [string]$sectionNumber
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
-
-    if ($currentValue -eq $null) {
-        Write-Host "$valueName is not configured. Recommendation: $recommendation"
-    } elseif ($currentValue.$valueName -eq $expectedValue) {
-        Write-Host "$valueName is set to $expectedValue (Meets the recommendation)"
-    } else {
-        Write-Host "$valueName is set to $($currentValue.$valueName) (Does not meet the recommendation. Recommendation: $recommendation)"
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber Ensure '$valueName' is set to 'Enabled' : $status"
 }
 
 # Check the status of LAPS AdmPwd GPO Extension / CSE installation
-Check-LAPS-GPSettings -policyPath $lapsAdmPwdPolicyPath -valueName $lapsAdmPwdGPOExtensionValueName -expectedValue 1 -recommendation "Install LAPS AdmPwd GPO Extension / CSE"
+Check-LAPS-GPSettings -policyPath $lapsAdmPwdPolicyPath -valueName $lapsAdmPwdGPOExtensionValueName -expectedValue 1 -sectionNumber "18.3.1 (L1)"
 
 # Check the status of 'Do not allow password expiration time longer than required by policy'
-Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $allowPasswordExpirationValueName -expectedValue 1 -recommendation "Enable"
+Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $allowPasswordExpirationValueName -expectedValue 1 -sectionNumber "18.3.2 (L1)"
 
 # Check the status of 'Enable Local Admin Password Management'
-Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $enableLocalAdminPasswordManagementValueName -expectedValue 1 -recommendation "Enable"
+Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $enableLocalAdminPasswordManagementValueName -expectedValue 1 -sectionNumber "18.3.3 (L1)"
 
 # Check the status of 'Password Settings: Password Complexity'
-Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $passwordComplexityValueName -expectedValue 1 -recommendation "Enable: Large letters + small letters + numbers + special characters"
+# Note: The expectedValue might need adjustment based on how complexity is stored/checked
+Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $passwordComplexityValueName -expectedValue 1 -sectionNumber "18.3.4 (L1)"
 
 # Check the status of 'Password Settings: Password Length'
-Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $passwordLengthValueName -expectedValue 15 -recommendation "Enable: 15 or more"
+Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $passwordLengthValueName -expectedValue 15 -sectionNumber "18.3.5 (L1)"
 
 # Check the status of 'Password Settings: Password Age (Days)'
-Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $passwordAgeDaysValueName -expectedValue 30 -recommendation "Enable: 30 or fewer"
+Check-LAPS-GPSettings -policyPath $lapsPasswordPolicyPath -valueName $passwordAgeDaysValueName -expectedValue 30 -sectionNumber "18.3.6 (L1)"

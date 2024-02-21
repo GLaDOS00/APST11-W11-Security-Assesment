@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the Privilege Use settings
-Write-Host "Checking Advanced Audit Policy Configuration - Privilege Use against CIS Benchmarks..."
 
 # Audit Sensitive Privilege Use
 $auditSensitivePrivilegeUse = Get-AuditPolicySetting "Sensitive Privilege Use"

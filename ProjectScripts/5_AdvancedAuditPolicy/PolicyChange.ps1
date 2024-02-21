@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the Policy Change settings
-Write-Host "Checking Advanced Audit Policy Configuration - Policy Change against CIS Benchmarks..."
 
 # Audit Audit Policy Change
 $auditAuditPolicyChange = Get-AuditPolicySetting "Audit Policy Change"

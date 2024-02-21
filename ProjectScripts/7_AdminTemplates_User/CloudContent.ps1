@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Administrative Templates (User) - Cloud Content Policies against CIS Benchmarks..."
 
 # Configure Windows spotlight on lock screen
 $configureWindowsSpotlight = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Policies\Microsoft\Windows\CloudContent\ConfigureWindowsSpotlight"

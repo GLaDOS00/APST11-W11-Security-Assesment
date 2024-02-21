@@ -17,9 +17,6 @@ function Get-SecPolValue {
     }
 }
 
-# Check each policy
-Write-Host "Checking Password Policies against CIS Benchmarks..."
-
 # Enforce password history
 $passwordHistory = Get-SecPolValue "PasswordHistorySize"
 if ($passwordHistory -ge 24) {

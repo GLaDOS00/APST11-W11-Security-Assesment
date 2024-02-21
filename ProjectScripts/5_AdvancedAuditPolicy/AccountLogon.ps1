@@ -10,7 +10,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the 'Audit Credential Validation' setting
-Write-Host "Checking Advanced Audit Policy Configuration - Account Logon against CIS Benchmarks..."
 
 # Audit Credential Validation
 $auditCredentialValidation = Get-AuditPolicySetting "Credential Validation"

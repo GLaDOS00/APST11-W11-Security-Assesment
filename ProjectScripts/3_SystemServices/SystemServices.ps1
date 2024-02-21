@@ -24,7 +24,6 @@ function Check-ServiceStatus {
 }
 
 # Check each service
-Write-Host "Checking System Services against CIS Benchmarks..."
 
 # List of services to check with their corresponding CIS Benchmark number
 $servicesToCheck = @(

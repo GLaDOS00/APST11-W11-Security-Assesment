@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the Object Access settings
-Write-Host "Checking Advanced Audit Policy Configuration - Object Access against CIS Benchmarks..."
 
 # Audit Detailed File Share
 $auditDetailedFileShare = Get-AuditPolicySetting "Detailed File Share"

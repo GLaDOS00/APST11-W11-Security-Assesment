@@ -1,7 +1,7 @@
 ﻿# Master Script for Centralized Execution of CIS Benchmark Checks with Progress Bar
 
 # Define the root directory where all scripts are stored
-$rootDirectory = "C:\Users\User\Desktop\ProjectScripts"
+$rootDirectory = "C:\Users\User\Documents\GitHub\APST11-W11-Security-Assesment\ProjectScripts"
 
 # Define a log file to store the output
 $logFile = "C:\Users\User\Desktop\CIS_Checks_Result.log"

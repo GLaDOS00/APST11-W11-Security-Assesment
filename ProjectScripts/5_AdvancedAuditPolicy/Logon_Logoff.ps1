@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the Logon/Logoff settings
-Write-Host "Checking Advanced Audit Policy Configuration - Logon/Logoff against CIS Benchmarks..."
 
 # Audit Account Lockout
 $auditAccountLockout = Get-AuditPolicySetting "Account Lockout"

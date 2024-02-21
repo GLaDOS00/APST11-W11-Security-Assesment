@@ -10,19 +10,19 @@ function Check-GPSettingRegionalLanguageOptions {
         [string]$policyPath,
         [string]$valueName,
         [string]$expectedValue,
-        [string]$recommendation
+        [string]$sectionNumber
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
-
-    if ($currentValue -eq $null) {
-        Write-Host "$valueName is not configured. Recommendation: $recommendation"
-    } elseif ($currentValue.$valueName -eq $expectedValue) {
-        Write-Host "$valueName is set to $expectedValue (Meets the recommendation)"
-    } else {
-        Write-Host "$valueName is set to $($currentValue.$valueName) (Does not meet the recommendation. Recommendation: $recommendation)"
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber Ensure '$valueName' is set to 'Disabled' : $status"
 }
 
+$sectionNumber = "19.1.1 (L1)"
+
 # Check the status of 'Allow users to enable online speech recognition services' policy
-Check-GPSettingRegionalLanguageOptions -policyPath $regionalLanguageOptionsPolicyPath -valueName $onlineSpeechRecognitionValueName -expectedValue 0 -recommendation "Disable"
+Check-GPSettingRegionalLanguageOptions -policyPath $regionalLanguageOptionsPolicyPath -valueName $onlineSpeechRecognitionValueName -expectedValue 0 -sectionNumber $sectionNumber

@@ -1,36 +1,36 @@
-# Define Group Policy paths for DNS Client
-$dnsClientPolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient"
-
-# Define Group Policy values for DNS Client
-$dnsOverHttpsValueName = "EnableAutoDoh"
-$netBiosSettingsValueName = "EnableMulticast"
-$turnOffMulticastValueName = "EnableMulticast"
-
 # Function to check the status of DNS Client Group Policy settings
-function Check-DNS-Client-GPSettings {
+function Check-DNSClient-GPSettings {
     param (
         [string]$policyPath,
         [string]$valueName,
-        [string]$expectedValue,
-        [string]$recommendation
+        [string]$expectedValues, # Note: This is plural because some settings may have multiple acceptable values
+        [string]$sectionNumber,
+        [string]$description
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
+    $status = "Non-Compliant"
 
-    if ($currentValue -eq $null) {
-        Write-Host "$valueName is not configured. Recommendation: $recommendation"
-    } elseif ($currentValue.$valueName -eq $expectedValue) {
-        Write-Host "$valueName is set to $expectedValue (Meets the recommendation)"
-    } else {
-        Write-Host "$valueName is set to $($currentValue.$valueName) (Does not meet the recommendation. Recommendation: $recommendation)"
+    # Check if the current value matches any of the expected values
+    foreach ($expectedValue in $expectedValues) {
+        if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+            $status = "Compliant"
+            break
+        }
     }
+
+    $expectedValueString = $expectedValues -join " or "
+    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$expectedValueString': $status"
 }
 
-# Check the status of 'Configure DNS over HTTPS (DoH) name resolution'
-Check-DNS-Client-GPSettings -policyPath $dnsClientPolicyPath -valueName $dnsOverHttpsValueName -expectedValue 2 -recommendation "Enable: Allow DoH or higher"
+# Define the registry path for DNS Client settings
+$dnsClientPolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient"
 
-# Check the status of 'Configure NetBIOS settings'
-Check-DNS-Client-GPSettings -policyPath $dnsClientPolicyPath -valueName $netBiosSettingsValueName -expectedValue 2 -recommendation "Enable: Disable NetBIOS name resolution on public networks"
+# Check 'Configure DNS over HTTPS (DoH) name resolution'
+Check-DNSClient-GPSettings -policyPath $dnsClientPolicyPath -valueName "EnableAutoDoh" -expectedValues @("2") -sectionNumber "18.6.4.1" -description "Configure DNS over HTTPS (DoH) name resolution"
 
-# Check the status of 'Turn off multicast name resolution'
-Check-DNS-Client-GPSettings -policyPath $dnsClientPolicyPath -valueName $turnOffMulticastValueName -expectedValue 1 -recommendation "Enable"
+# Check 'Configure NetBIOS settings'
+Check-DNSClient-GPSettings -policyPath $dnsClientPolicyPath -valueName "NetBIOSOptions" -expectedValues @("2") -sectionNumber "18.6.4.2" -description "Configure NetBIOS settings"
+
+# Check 'Turn off multicast name resolution'
+Check-DNSClient-GPSettings -policyPath $dnsClientPolicyPath -valueName "EnableMulticast" -expectedValues @("0") -sectionNumber "18.6.4.3" -description "Turn off multicast name resolution"

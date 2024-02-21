@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Administrative Templates (User) - Network Sharing Policies against CIS Benchmarks..."
 
 # Prevent users from sharing files within their profile
 $preventFileSharing = Get-SecPolValue "HKEY_USERS\[USER SID]\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\NoInplaceSharing"

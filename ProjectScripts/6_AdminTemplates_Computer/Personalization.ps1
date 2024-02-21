@@ -12,23 +12,20 @@ function Check-GPSetting {
         [string]$policyPath,
         [string]$valueName,
         [string]$expectedValue,
-        [string]$recommendation
+        [string]$sectionNumber
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
-
-    if ($currentValue -eq $null) {
-        Write-Host "$valueName is not configured. Recommendation: $recommendation"
-    } elseif ($currentValue.$valueName -eq $expectedValue) {
-        Write-Host "$valueName is set to $expectedValue (Meets the recommendation)"
-    } else {
-        Write-Host "$valueName is set to $($currentValue.$valueName) (Does not meet the recommendation. Recommendation: $recommendation)"
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber Ensure '$valueName' is set to 'Enabled' : $status"
 }
 
 # Check the status of Prevent enabling lock screen camera policy
-Check-GPSetting -policyPath $lockScreenCameraPolicyPath -valueName $lockScreenCameraValueName -expectedValue 1 -recommendation "Enable"
+Check-GPSetting -policyPath $lockScreenCameraPolicyPath -valueName $lockScreenCameraValueName -expectedValue 1 -sectionNumber "18.1.1.1 (L1)"
 
 # Check the status of Prevent enabling lock screen slide show policy
-Check-GPSetting -policyPath $lockScreenSlideShowPolicyPath -valueName $lockScreenSlideShowValueName -expectedValue 1 -recommendation "Enable"
-
+Check-GPSetting -policyPath $lockScreenSlideShowPolicyPath -valueName $lockScreenSlideShowValueName -expectedValue 1 -sectionNumber "18.1.1.2 (L1)"

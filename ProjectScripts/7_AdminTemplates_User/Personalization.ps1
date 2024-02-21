@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Administrative Templates (User) - Personalization Policies against CIS Benchmarks..."
 
 # Enable screen saver
 $enableScreenSaver = Get-SecPolValue "EnableScreenSaver"

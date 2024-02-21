@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Administrative Templates (User) - Notifications Policies against CIS Benchmarks..."
 
 # Turn off toast notifications on the lock screen
 $turnOffToastNotifications = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Policies\Microsoft\Windows\Control Panel\Notifications\TurnOffToastNotificationsOnLockScreen"

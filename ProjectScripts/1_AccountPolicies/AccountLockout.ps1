@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Account Lockout Policies against CIS Benchmarks..."
 
 # Account lockout duration
 $lockoutDuration = Get-SecPolValue "LockoutDuration"

@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the 'Audit Application Group Management' setting
-Write-Host "Checking Advanced Audit Policy Configuration - Account Management against CIS Benchmarks..."
 
 # Audit Application Group Management
 $auditAppGroupManagement = Get-AuditPolicySetting "Application Group Management"

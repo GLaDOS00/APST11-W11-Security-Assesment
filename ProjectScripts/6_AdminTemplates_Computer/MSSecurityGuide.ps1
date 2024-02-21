@@ -22,37 +22,24 @@ function Check-MS-Security-Guide-GPSettings {
         [string]$policyPath,
         [string]$valueName,
         [string]$expectedValue,
-        [string]$recommendation
+        [string]$sectionNumber,
+        [string]$settingDescription
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
-
-    if ($currentValue -eq $null) {
-        Write-Host "$valueName is not configured. Recommendation: $recommendation"
-    } elseif ($currentValue.$valueName -eq $expectedValue) {
-        Write-Host "$valueName is set to $expectedValue (Meets the recommendation)"
-    } else {
-        Write-Host "$valueName is set to $($currentValue.$valueName) (Does not meet the recommendation. Recommendation: $recommendation)"
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber (L1) Ensure '$settingDescription' is set to '$expectedValue': $status"
 }
 
-# Check the status of 'Apply UAC restrictions to local accounts on network logons'
-Check-MS-Security-Guide-GPSettings -policyPath $securityOptionsPolicyPath -valueName $uacLocalAccountsValueName -expectedValue 1 -recommendation "Enable"
-
-# Check the status of 'Configure RPC packet level privacy setting for incoming connections'
-Check-MS-Security-Guide-GPSettings -policyPath $rpcPrivacyPolicyPath -valueName $rpcPacketPrivacyValueName -expectedValue 1 -recommendation "Enable"
-
-# Check the status of 'Configure SMB v1 client driver'
-Check-MS-Security-Guide-GPSettings -policyPath $smbV1ClientPolicyPath -valueName $smbV1ClientDriverValueName -expectedValue 2 -recommendation "Enable: Disable driver (recommended)"
-
-# Check the status of 'Configure SMB v1 server'
-Check-MS-Security-Guide-GPSettings -policyPath $smbV1ServerPolicyPath -valueName $smbV1ServerValueName -expectedValue 0 -recommendation "Disable"
-
-# Check the status of 'Enable Structured Exception Handling Overwrite Protection (SEHOP)'
-Check-MS-Security-Guide-GPSettings -policyPath $sehopPolicyPath -valueName $sehopValueName -expectedValue 1 -recommendation "Enable"
-
-# Check the status of 'NetBT NodeType configuration'
-Check-MS-Security-Guide-GPSettings -policyPath $netBTNodeTypePolicyPath -valueName $netBTNodeTypeValueName -expectedValue 4 -recommendation "Enable: P-node (recommended)"
-
-# Check the status of 'WDigest Authentication'
-Check-MS-Security-Guide-GPSettings -policyPath $wdigestPolicyPath -valueName $wdigestValueName -expectedValue 0 -recommendation "Disable"
+# Implementing the checks with section numbers and specific compliance messages
+Check-MS-Security-Guide-GPSettings -policyPath $securityOptionsPolicyPath -valueName $uacLocalAccountsValueName -expectedValue 1 -sectionNumber "18.4.1" -settingDescription "Apply UAC restrictions to local accounts on network logons"
+Check-MS-Security-Guide-GPSettings -policyPath $rpcPrivacyPolicyPath -valueName $rpcPacketPrivacyValueName -expectedValue 1 -sectionNumber "18.4.2" -settingDescription "Configure RPC packet level privacy setting for incoming connections"
+Check-MS-Security-Guide-GPSettings -policyPath $smbV1ClientPolicyPath -valueName $smbV1ClientDriverValueName -expectedValue 0 -sectionNumber "18.4.3" -settingDescription "Configure SMB v1 client driver: Disable driver (recommended)"
+Check-MS-Security-Guide-GPSettings -policyPath $smbV1ServerPolicyPath -valueName $smbV1ServerValueName -expectedValue 0 -sectionNumber "18.4.4" -settingDescription "Configure SMB v1 server"
+Check-MS-Security-Guide-GPSettings -policyPath $sehopPolicyPath -valueName $sehopValueName -expectedValue 1 -sectionNumber "18.4.5" -settingDescription "Enable Structured Exception Handling Overwrite Protection (SEHOP)"
+Check-MS-Security-Guide-GPSettings -policyPath $netBTNodeTypePolicyPath -valueName $netBTNodeTypeValueName -expectedValue 4 -sectionNumber "18.4.6" -settingDescription "NetBT NodeType configuration: P-node (recommended)"
+Check-MS-Security-Guide-GPSettings -policyPath $wdigestPolicyPath -valueName $wdigestValueName -expectedValue 0 -sectionNumber "18.4.7" -settingDescription "WDigest Authentication"

@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Administrative Templates (User) - Windows Installer Policies against CIS Benchmarks..."
 
 # Always install with elevated privileges
 $alwaysInstallElevated = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated"

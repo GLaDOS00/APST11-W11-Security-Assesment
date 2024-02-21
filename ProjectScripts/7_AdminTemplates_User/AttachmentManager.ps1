@@ -18,7 +18,6 @@ function Get-SecPolValue {
 }
 
 # Check each policy
-Write-Host "Checking Administrative Templates (User) - Attachment Manager Policies against CIS Benchmarks..."
 
 # Do not preserve zone information in file attachments
 $preserveZoneInformation = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments\SaveZoneInformation"

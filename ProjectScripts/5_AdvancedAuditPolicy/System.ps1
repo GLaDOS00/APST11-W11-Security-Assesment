@@ -14,7 +14,6 @@ function Get-AuditPolicySetting {
 }
 
 # Check the System settings
-Write-Host "Checking Advanced Audit Policy Configuration - System against CIS Benchmarks..."
 
 # Audit IPsec Driver
 $auditIPsecDriver = Get-AuditPolicySetting "IPsec Driver"
