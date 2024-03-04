@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Windows Sandbox
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,11 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Sandbox"
 
 
-#  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+# 18.10.91.1 (L1) Ensure 'Allow clipboard sharing with Windows Sandbox' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "AllowClipboardRedirection" -expectedValue 0 -sectionNumber "18.10.91.1" -description "Allow clipboard sharing with Windows Sandbox" -recommendation "Disabled"
+
+# 18.10.91.2 (L1) Ensure 'Allow networking in Windows Sandbox' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "AllowNetworking" -expectedValue 0 -sectionNumber "18.10.91.2" -description "Allow networking in Windows Sandbox" -recommendation "Disabled"

@@ -19,8 +19,11 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath1= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging"
+$RegPath2= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription"
 
+# 18.10.87.1 (L1) Ensure 'Turn on PowerShell Script Block Logging' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath1 -valueName "EnableScriptBlockLogging" -expectedValue 1 -sectionNumber "18.10.87.1" -description "Turn on PowerShell Script Block Logging" -recommendation "Enabled"
 
-#  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+# 18.10.87.2 (L1) Ensure 'Turn on PowerShell Transcription' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath2 -valueName "EnableTranscripting" -expectedValue 1 -sectionNumber "18.10.87.2" -description "Turn on PowerShell Transcription" -recommendation "Enabled"

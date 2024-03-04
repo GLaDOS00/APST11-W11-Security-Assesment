@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Windows Security
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
 
 
-#  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+# 18.10.92.2.1 (L1) Ensure 'Prevent users from modifying settings' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "DisallowExploitProtectionOverride" -expectedValue 1 -sectionNumber "18.10.92.2.1" -description "Prevent users from modifying settings" -recommendation "Enabled"

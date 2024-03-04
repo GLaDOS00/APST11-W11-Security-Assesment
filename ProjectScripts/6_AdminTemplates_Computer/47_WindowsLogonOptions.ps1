@@ -19,8 +19,11 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
 
 
-#  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+# 18.10.82.1 (L1) Ensure 'Enable MPR notifications for the system' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "EnableMPR" -expectedValue 0 -sectionNumber "18.10.82.1" -description "Enable MPR notifications for the system" -recommendation "Disabled"
+
+# 18.10.82.2 (L1) Ensure 'Sign-in and lock last interactive user automatically after a restart' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "DisableAutomaticRestartSignOn" -expectedValue 1 -sectionNumber "18.10.82.1" -description "Sign-in and lock last interactive user automatically after a restart" -recommendation "Disabled"
