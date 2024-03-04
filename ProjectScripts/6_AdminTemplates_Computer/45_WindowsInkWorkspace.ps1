@@ -1,4 +1,4 @@
-# Function to check the status of: Administrative Templates (Computer) - Connect
+# Function to check the status of: Administrative Templates (Computer) - Windows Ink Workspace
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Connect"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace"
 
 
-# 18.10.13.1 (L1) Ensure 'Require pin for pairing' is set to 'Enabled: First Time'
-Check-GPSetting -policyPath $RegPath -valueName "RequirePinForPairing" -expectedValue 1 -sectionNumber "18.10.13.1" -description "Require pin for pairing" -recommendation "Enabled: First Time"
+# 18.10.80.2 (L1) Ensure 'Allow Windows Ink Workspace' is set to 'Enabled: On, but disallow access above lock'
+Check-GPSetting -policyPath $RegPath -valueName "AllowWindowsInkWorkspace" -expectedValue 1 -sectionNumber "18.10.80.2" -description "Allow Windows Ink Workspace" -recommendation "Enabled: On, but disallow access above lock"

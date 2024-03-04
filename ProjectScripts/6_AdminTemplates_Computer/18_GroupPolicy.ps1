@@ -1,4 +1,4 @@
-# Function to check the status of Group Policy setting
+# Function to check the status of: Administrative Templates (Computer) - Group Policy
 function Check-GPSetting {
     param (
         [string]$policyPath,

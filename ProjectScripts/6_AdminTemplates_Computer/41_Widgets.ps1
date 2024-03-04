@@ -1,4 +1,4 @@
-# Function to check the status of: Administrative Templates (Computer) - Connect
+# Function to check the status of: Administrative Templates (Computer) - Widgets
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Connect"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Dsh"
 
 
-# 18.10.13.1 (L1) Ensure 'Require pin for pairing' is set to 'Enabled: First Time'
-Check-GPSetting -policyPath $RegPath -valueName "RequirePinForPairing" -expectedValue 1 -sectionNumber "18.10.13.1" -description "Require pin for pairing" -recommendation "Enabled: First Time"
+# 18.10.72.1 (L1) Ensure 'Allow widgets' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "AllowNewsAndInterests" -expectedValue 0 -sectionNumber "18.10.72.1" -description "Allow widgets" -recommendation "Disabled"

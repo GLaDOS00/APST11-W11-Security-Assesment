@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - OneDrive
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\HomeGroup"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive"
 
 
-# 18.10.33.1 (L1) Ensure 'Prevent the computer from joining a homegroup' is set to 'Enabled'
-Check-GPSetting -policyPath $RegPath -valueName "DisableHomeGroup" -expectedValue 1 -sectionNumber "18.10.33.1" -description "Prevent the computer from joining a homegroup" -recommendation "Enabled"
+# 18.10.51.1 (L1) Ensure 'Prevent the usage of OneDrive for file storage' is set to 'Enabled' 
+Check-GPSetting -policyPath $RegPath -valueName "DisableFileSyncNGSC" -expectedValue 1 -sectionNumber "18.10.51.1" -description "Prevent the usage of OneDrive for file storage" -recommendation "Enabled"

@@ -1,4 +1,4 @@
-# Function to check the status of: Administrative Templates (Computer) - Connect
+# Function to check the status of: Administrative Templates (Computer) - RSS Feeds
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Connect"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Internet Explorer\Feeds"
 
 
-# 18.10.13.1 (L1) Ensure 'Require pin for pairing' is set to 'Enabled: First Time'
-Check-GPSetting -policyPath $RegPath -valueName "RequirePinForPairing" -expectedValue 1 -sectionNumber "18.10.13.1" -description "Require pin for pairing" -recommendation "Enabled: First Time"
+# 18.10.58.1 (L1) Ensure 'Prevent downloading of enclosures' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "DisableEnclosureDownload" -expectedValue 1 -sectionNumber "18.10.58.1" -description "Prevent downloading of enclosures" -recommendation "Enabled"

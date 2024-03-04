@@ -1,4 +1,4 @@
-# Function to check the status of: Administrative Templates (Computer) - Connect
+# Function to check the status of: Administrative Templates (Computer) - Windows Hello for Business
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Connect"
+$RegPath= "HKLM:\SOFTWARE\Microsoft\Policies\PassportForWork\Biometrics"
 
 
-# 18.10.13.1 (L1) Ensure 'Require pin for pairing' is set to 'Enabled: First Time'
-Check-GPSetting -policyPath $RegPath -valueName "RequirePinForPairing" -expectedValue 1 -sectionNumber "18.10.13.1" -description "Require pin for pairing" -recommendation "Enabled: First Time"
+# 18.10.79.1 (L1) Ensure 'Enable ESS with Supported Peripherals' is set to 'Enabled: 1'
+Check-GPSetting -policyPath $RegPath -valueName "EnableESSwithSupportedPeripherals" -expectedValue 1 -sectionNumber "18.10.79.1" -description "Enable ESS with Supported Peripherals" -recommendation "Enabled: 1"

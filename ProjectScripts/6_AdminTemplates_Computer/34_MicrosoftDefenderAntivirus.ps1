@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Microsoft Defender Antivirus
 function Check-GPSetting {
     param (
         [string]$policyPath,

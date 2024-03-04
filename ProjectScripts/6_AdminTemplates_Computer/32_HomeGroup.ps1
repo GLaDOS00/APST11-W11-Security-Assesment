@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Home Group
 function Check-GPSetting {
     param (
         [string]$policyPath,
