@@ -1,2 +1,3 @@
-CIS_Checks_Result.txt
-CIS_Checks_Formatted_Result
+# Ignore specific log files in ProjectScripts directory
+ProjectScripts/CIS_Checks_Formatted_Result.log
+ProjectScripts/CIS_Checks_Result.log
