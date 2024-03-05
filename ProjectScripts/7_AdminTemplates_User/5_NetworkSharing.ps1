@@ -1,33 +1,32 @@
-# PowerShell Script to Check Administrative Templates (User) - Network Sharing Policies Against CIS Benchmarks for Windows 11 Enterprise
-
-# Export the security settings to a temporary file
-$seceditExportPath = "$env:TEMP\secpol.cfg"
-secedit /export /cfg $seceditExportPath
-
-# Function to parse the exported security settings file for a specific policy value
-function Get-SecPolValue {
+# Function to check the status of: Administrative Templates (User) - Network Sharing
+function Check-GPSetting {
     param (
-        [string]$policyName
+        [string]$policyPath,
+        [string]$valueName,
+        [string]$expectedValue,
+        [string]$sectionNumber,
+        [string]$description,
+        [string]$recommendation
     )
-    $content = Get-Content -Path $seceditExportPath
-    foreach ($line in $content) {
-        if ($line.StartsWith($policyName)) {
-            return $line.Split('=')[1].Trim()
-        }
+
+    $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
 }
 
-# Check each policy
+# Automatically get the current username
+$currentUserName = $env:USERNAME
 
-# Prevent users from sharing files within their profile
-$preventFileSharing = Get-SecPolValue "HKEY_USERS\[USER SID]\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer\NoInplaceSharing"
-if ($preventFileSharing -eq "1") {
-    Write-Host "19.7.25.1 (L1) Ensure 'Prevent users from sharing files within their profile.' is set to 'Enabled': Compliant"
-} else {
-    Write-Host "19.7.25.1 (L1) Ensure 'Prevent users from sharing files within their profile.' is set to 'Enabled': Non-Compliant"
-}
+# Get the SID for the current user
+$userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name = '$currentUserName'").SID
 
-# Cleanup temporary file
-Remove-Item $seceditExportPath -ErrorAction SilentlyContinue
+# Corrected Registry Path:
+$RegPath= "Registry::HKEY_USERS\$userSID\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
 
-# End of script
+
+# 19.7.25.1 (L1) Ensure 'Prevent users from sharing files within their profile' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "NoInplaceSharing" -expectedValue 1 -sectionNumber "19.7.25.1" -description "Prevent users from sharing files within their profile" -recommendation "Enabled"

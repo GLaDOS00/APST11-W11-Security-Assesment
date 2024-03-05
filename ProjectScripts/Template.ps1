@@ -18,8 +18,10 @@ function Check-GPSetting {
     Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
 }
 
+
+
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKU:\"
 
 
 #  

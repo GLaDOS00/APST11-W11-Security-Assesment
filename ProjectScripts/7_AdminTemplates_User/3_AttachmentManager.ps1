@@ -1,41 +1,35 @@
-# PowerShell Script to Check Administrative Templates (User) - Attachment Manager Policies Against CIS Benchmarks for Windows 11 Enterprise
-
-# Export the security settings to a temporary file
-$seceditExportPath = "$env:TEMP\secpol.cfg"
-secedit /export /cfg $seceditExportPath
-
-# Function to parse the exported security settings file for a specific policy value
-function Get-SecPolValue {
+# Function to check the status of: Administrative Templates (User) - Attachment Manager
+function Check-GPSetting {
     param (
-        [string]$policyName
+        [string]$policyPath,
+        [string]$valueName,
+        [string]$expectedValue,
+        [string]$sectionNumber,
+        [string]$description,
+        [string]$recommendation
     )
-    $content = Get-Content -Path $seceditExportPath
-    foreach ($line in $content) {
-        if ($line.StartsWith($policyName)) {
-            return $line.Split('=')[1].Trim()
-        }
+
+    $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
 }
 
-# Check each policy
+# Automatically get the current username
+$currentUserName = $env:USERNAME
 
-# Do not preserve zone information in file attachments
-$preserveZoneInformation = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments\SaveZoneInformation"
-if ($preserveZoneInformation -eq "2") {
-    Write-Host "19.7.4.1 (L1) Ensure 'Do not preserve zone information in file attachments' is set to 'Disabled': Compliant"
-} else {
-    Write-Host "19.7.4.1 (L1) Ensure 'Do not preserve zone information in file attachments' is set to 'Disabled': Non-Compliant"
-}
+# Get the SID for the current user
+$userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name = '$currentUserName'").SID
 
-# Notify antivirus programs when opening attachments
-$notifyAntivirusPrograms = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments\ScanWithAntivirus"
-if ($notifyAntivirusPrograms -eq "1") {
-    Write-Host "19.7.4.2 (L1) Ensure 'Notify antivirus programs when opening attachments' is set to 'Enabled': Compliant"
-} else {
-    Write-Host "19.7.4.2 (L1) Ensure 'Notify antivirus programs when opening attachments' is set to 'Enabled': Non-Compliant"
-}
+# Corrected Registry Path:
+$RegPath= "Registry::HKEY_USERS\$userSID\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments"
 
-# Cleanup temporary file
-Remove-Item $seceditExportPath -ErrorAction SilentlyContinue
 
-# End of script
+# 19.7.4.1 (L1) Ensure 'Do not preserve zone information in file attachments' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "SaveZoneInformation" -expectedValue 2 -sectionNumber "19.7.4.1" -description "Do not preserve zone information in file attachments" -recommendation "Disabled"
+
+# 19.7.4.2 (L1) Ensure 'Notify antivirus programs when opening attachments' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "ScanWithAntiVirus" -expectedValue 3 -sectionNumber "19.7.4.2" -description "Notify antivirus programs when opening attachments" -recommendation "Enabled"

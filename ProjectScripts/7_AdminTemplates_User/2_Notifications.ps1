@@ -1,33 +1,32 @@
-# PowerShell Script to Check Administrative Templates (User) - Notifications Policies Against CIS Benchmarks for Windows 11 Enterprise
-
-# Export the security settings to a temporary file
-$seceditExportPath = "$env:TEMP\secpol.cfg"
-secedit /export /cfg $seceditExportPath
-
-# Function to parse the exported security settings file for a specific policy value
-function Get-SecPolValue {
+# Function to check the status of: Administrative Templates (User) - Notifications
+function Check-GPSetting {
     param (
-        [string]$policyName
+        [string]$policyPath,
+        [string]$valueName,
+        [string]$expectedValue,
+        [string]$sectionNumber,
+        [string]$description,
+        [string]$recommendation
     )
-    $content = Get-Content -Path $seceditExportPath
-    foreach ($line in $content) {
-        if ($line.StartsWith($policyName)) {
-            return $line.Split('=')[1].Trim()
-        }
+
+    $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
+    $status = "Non-Compliant"
+    if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
+        $status = "Compliant"
     }
+
+    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
 }
 
-# Check each policy
+# Automatically get the current username
+$currentUserName = $env:USERNAME
 
-# Turn off toast notifications on the lock screen
-$turnOffToastNotifications = Get-SecPolValue "HKEY_USERS\[USER SID]\Software\Policies\Microsoft\Windows\Control Panel\Notifications\TurnOffToastNotificationsOnLockScreen"
-if ($turnOffToastNotifications -eq "1") {
-    Write-Host "19.5.1.1 (L1) Ensure 'Turn off toast notifications on the lock screen' is set to 'Enabled': Compliant"
-} else {
-    Write-Host "19.5.1.1 (L1) Ensure 'Turn off toast notifications on the lock screen' is set to 'Enabled': Non-Compliant"
-}
+# Get the SID for the current user
+$userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name = '$currentUserName'").SID
 
-# Cleanup temporary file
-Remove-Item $seceditExportPath -ErrorAction SilentlyContinue
+# Corrected Registry Path:
+$RegPath= "Registry::HKEY_USERS\$userSID\Software\Policies\Microsoft\Windows\CurrentVersion\PushNotifications"
 
-# End of script
+
+# 19.5.1.1 (L1) Ensure 'Turn off toast notifications on the lock screen' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "NoToastApplicationNotificationOnLockScreen" -expectedValue 1 -sectionNumber "19.5.1.1" -description "Turn off toast notifications on the lock screen" -recommendation "Enabled"

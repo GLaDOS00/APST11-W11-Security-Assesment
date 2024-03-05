@@ -1,4 +1,4 @@
-# Function to check the status of: Administrative Templates (User) - Windows Installer
+# Function to check the status of:  - 
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -25,8 +25,8 @@ $currentUserName = $env:USERNAME
 $userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name = '$currentUserName'").SID
 
 # Corrected Registry Path:
-$RegPath= "Registry::HKEY_USERS\$userSID\Software\Policies\Microsoft\Windows\Installer"
+$RegPath= "Registry::HKEY_USERS\$userSID\"
 
 
-# 19.7.40.1 (L1) Ensure 'Always install with elevated privileges' is set to 'Disabled'
-Check-GPSetting -policyPath $RegPath -valueName "AlwaysInstallElevated" -expectedValue 0 -sectionNumber "19.7.40.1" -description "Always install with elevated privileges" -recommendation "Disabled"
+# 
+Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
