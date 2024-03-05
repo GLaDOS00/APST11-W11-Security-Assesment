@@ -1,16 +1,12 @@
-# Define Group Policy path for regional and language options
-$regionalLanguageOptionsPolicyPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\SpeechOne"
-
-# Define Group Policy value
-$onlineSpeechRecognitionValueName = "AllowOnlineSpeechRecognition"
-
-# Function to check the status of Group Policy setting for regional and language options
-function Check-GPSettingRegionalLanguageOptions {
+# Function to check the status of: Administrative Templates (Computer) - Regional & Language Options
+function Check-GPSetting {
     param (
         [string]$policyPath,
         [string]$valueName,
         [string]$expectedValue,
-        [string]$sectionNumber
+        [string]$sectionNumber,
+        [string]$description,
+        [string]$recommendation
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
@@ -19,10 +15,14 @@ function Check-GPSettingRegionalLanguageOptions {
         $status = "Compliant"
     }
 
-    Write-Host "$sectionNumber Ensure '$valueName' is set to 'Disabled' : $status"
+    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
 }
 
-$sectionNumber = "19.1.1 (L1)"
 
-# Check the status of 'Allow users to enable online speech recognition services' policy
-Check-GPSettingRegionalLanguageOptions -policyPath $regionalLanguageOptionsPolicyPath -valueName $onlineSpeechRecognitionValueName -expectedValue 0 -sectionNumber $sectionNumber
+
+# Registry Values:
+$RegPath= "HKLM:\\SOFTWARE\Policies\Microsoft\Windows\SpeechOne"
+
+
+# 18.1.2.2 (L1) Ensure 'Allow users to enable online speech recognition services' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "AllowOnlineSpeechRecognition" -expectedValue 0 -sectionNumber "18.1.2.2" -description "Allow users to enable online speech recognition services" -recommendation "Disabled"

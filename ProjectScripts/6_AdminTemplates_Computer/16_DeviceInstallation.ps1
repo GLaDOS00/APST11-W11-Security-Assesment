@@ -1,4 +1,4 @@
-# Function to check the status of Group Policy setting
+# Function to check the status of: Administrative Templates (Computer) - Device Installation
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,7 +19,7 @@ function Check-GPSetting {
 }
 
 # Define the registry path for Device Installation settings
-$deviceMetadataPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata"
+$RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata"
 
-# Check 'Prevent device metadata retrieval from the Internet'
-Check-GPSetting -policyPath $deviceMetadataPath -valueName "PreventDeviceMetadataFromInternet" -expectedValue 1 -sectionNumber "18.9.7.2" -description "Prevent device metadata retrieval from the Internet" -recommendation "Enabled"
+# 18.9.7.2 (L1) Ensure 'Prevent device metadata retrieval from the Internet' is set to 'Enabled’
+Check-GPSetting -policyPath $RegPath -valueName "PreventDeviceMetadataFromInternet" -expectedValue 1 -sectionNumber "18.9.7.2" -description "Prevent device metadata retrieval from the Internet" -recommendation "Enabled"

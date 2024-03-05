@@ -21,7 +21,7 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath= "HKU:\"
+$RegPath= "HKLM:\"
 
 
 #  

@@ -1,4 +1,4 @@
-# Function to check the status of: Local Administrative Templates (Computer) - AppPackage
+# Function to check the status of: Local Administrative Templates (Computer) - App Package Deployment
 function Check-GPSetting {
     param (
         [string]$policyPath,
