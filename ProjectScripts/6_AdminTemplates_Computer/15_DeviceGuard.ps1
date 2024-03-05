@@ -6,7 +6,7 @@ function Check-GPSetting {
         [string]$expectedValue,
         [string]$sectionNumber,
         [string]$description,
-        [string]$recommendation # Adjusted to include recommendation dynamically
+        [string]$recommendation
     )
 
     $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue

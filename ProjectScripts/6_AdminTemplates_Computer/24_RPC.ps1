@@ -1,4 +1,4 @@
-# Function to check the status of: Administrative Templates (Computer) - Lanman Workstation
+# Function to check the status of:  - 
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -18,9 +18,11 @@ function Check-GPSetting {
     Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
 }
 
-# Regristry Paths:
-$RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\LanmanWorkstation"
 
 
-# 18.6.8.1 (L1) Ensure 'Enable insecure guest logons' is set to 'Disabled'
-Check-GPSetting -policyPath $RegPath -valueName "AllowInsecureGuestAuth" -expectedValue 0 -sectionNumber "18.6.8.1" -description "Enable insecure guest logons" -recommendation "Disabled"
+# Registry Values:
+$RegPath= "HKLM:\"
+
+
+#  
+Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""

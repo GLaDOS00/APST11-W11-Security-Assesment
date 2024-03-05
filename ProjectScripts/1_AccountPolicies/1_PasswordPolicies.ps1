@@ -68,4 +68,3 @@ if ($storePasswordsReversibly -eq 0) {
 # Cleanup temporary file
 Remove-Item $seceditExportPath -ErrorAction SilentlyContinue
 
-# End of script

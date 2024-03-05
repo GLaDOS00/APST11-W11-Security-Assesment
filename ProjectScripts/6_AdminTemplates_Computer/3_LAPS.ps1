@@ -21,12 +21,12 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath1= "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions\{D76B9641-3288-4f75-942D-087DE603E3EA}:DllName"
+$RegPath1= "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions\{D76B9641-3288-4f75-942D-087DE603E3EA}"
 $RegPath2 = "HKLM:\SOFTWARE\Policies\Microsoft Services\AdmPwd\Policies"
 
 
 # 18.3.1 (L1) Ensure LAPS AdmPwd GPO Extension / CSE is installed
-Check-GPSetting -policyPath $RegPath1 -valueName "AdmPwdEnabled" -expectedValue 1 -sectionNumber "18.3.1" -description "LAPS AdmPwd GPO Extension / CSE" -recommendation "Installed"
+Check-GPSetting -policyPath $RegPath1 -valueName "AdmPwd.dll" -expectedValue 1 -sectionNumber "18.3.1" -description "LAPS AdmPwd GPO Extension / CSE" -recommendation "Installed"
 
 # 18.3.2 (L1) Ensure 'Do not allow password expiration time longer than required by policy' is set to 'Enabled'
 Check-GPSetting -policyPath $RegPath2 -valueName "AdmPwdUsePasswordExpPolicy" -expectedValue 1 -sectionNumber "18.3.2" -description "Do not allow password expiration time longer than required by policy" -recommendation "Enabled"

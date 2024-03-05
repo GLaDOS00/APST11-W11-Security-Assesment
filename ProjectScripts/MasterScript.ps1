@@ -1,12 +1,14 @@
-﻿# Master Script for Centralized Execution of CIS Benchmark Checks with Progress Bar
+﻿# Dynamically set the root directory to where the script is executed from
+$rootDirectory = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-# Define the root directory where all scripts are stored
-$rootDirectory = "C:\Users\User\Documents\GitHub\APST11-W11-Security-Assesment\ProjectScripts"
+# Define a log file to store the output, adjust the path as needed
+$logFile = Join-Path -Path $rootDirectory -ChildPath "CIS_Checks_Result.log"
 
-# Define a log file to store the output
-$logFile = "C:\Users\User\Desktop\CIS_Checks_Result.log"
+# Delete the log file if it exists to ensure it's overwritten
+if (Test-Path $logFile) {
+    Remove-Item $logFile
+}
 
-# Function to execute scripts in a given directory
 function Execute-ScriptsInDirectory {
     param (
         [string]$directoryPath,
@@ -14,25 +16,26 @@ function Execute-ScriptsInDirectory {
         [ref]$scriptCounter
     )
 
-    # Get all PowerShell scripts in the directory
     $scripts = Get-ChildItem -Path $directoryPath -Filter *.ps1
 
     foreach ($script in $scripts) {
         $scriptPath = Join-Path -Path $directoryPath -ChildPath $script.Name
         
-        # Update progress
         $percentComplete = ($scriptCounter.Value / $totalScripts) * 100
         Write-Progress -PercentComplete $percentComplete -Status "Running CIS Benchmarks Checks" -Activity "Executing $scriptPath"
 
-        # Execute the script and capture the output
+        # Execute the script and capture the output, overwrite the file on the first write, then append
         $scriptOutput = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath
-        $scriptOutput | Out-File -FilePath $logFile -Append
+        if ($scriptCounter.Value -eq 0) {
+            $scriptOutput | Out-File -FilePath $logFile
+        } else {
+            $scriptOutput | Out-File -FilePath $logFile -Append
+        }
 
         $scriptCounter.Value++
     }
 }
 
-# Function to traverse directories and execute scripts, with progress tracking
 function Traverse-And-Execute {
     param (
         [string]$basePath,
@@ -40,24 +43,19 @@ function Traverse-And-Execute {
         [ref]$scriptCounter
     )
 
-    # Get all directories in the base path
     $directories = Get-ChildItem -Path $basePath -Directory
 
     foreach ($dir in $directories) {
         $dirPath = Join-Path -Path $basePath -ChildPath $dir.Name
 
-        # Execute scripts in the current directory
         Execute-ScriptsInDirectory -directoryPath $dirPath -totalScripts $totalScripts -scriptCounter $scriptCounter
 
-        # Recursively traverse subdirectories
         Traverse-And-Execute -basePath $dirPath -totalScripts $totalScripts -scriptCounter $scriptCounter
     }
 }
 
-# Calculate total number of scripts to set the progress bar correctly
 $totalScripts = (Get-ChildItem -Path $rootDirectory -Recurse -Filter *.ps1).Count
 $scriptCounter = [ref]0
 
-# Start execution with progress bar
 Traverse-And-Execute -basePath $rootDirectory -totalScripts $totalScripts -scriptCounter $scriptCounter
 Write-Host "CIS Benchmarks Checks completed. Check the log file at $logFile for details."
