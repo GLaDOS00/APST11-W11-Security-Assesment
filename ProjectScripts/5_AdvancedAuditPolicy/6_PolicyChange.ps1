@@ -55,4 +55,3 @@ if ($auditOtherPolicyChangeEvents."Inclusion Setting" -match "Failure") {
     Write-Host "17.7.5 (L1) Ensure 'Audit Other Policy Change Events' is set to include 'Failure': Non-Compliant"
 }
 
-# End of script

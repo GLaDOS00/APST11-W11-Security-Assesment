@@ -63,4 +63,3 @@ if ($auditSpecialLogon."Inclusion Setting" -match "Success") {
     Write-Host "17.5.6 (L1) Ensure 'Audit Special Logon' is set to include 'Success': Non-Compliant"
 }
 
-# End of script

@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Remote Assistance
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -21,8 +21,11 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"
 
 
-#  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+# 18.9.34.1 (L1) Ensure 'Configure Offer Remote Assistance' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "fAllowUnsolicited" -expectedValue 0 -sectionNumber "18.9.34.1" -description "Configure Offer Remote Assistance" -recommendation "Disabled"
+
+# 18.9.34.2 (L1) Ensure 'Configure Solicited Remote Assistance' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "fAllowToGetHelp" -expectedValue 0 -sectionNumber "18.9.34.2" -description "Configure Solicited Remote Assistance" -recommendation "Disabled" 

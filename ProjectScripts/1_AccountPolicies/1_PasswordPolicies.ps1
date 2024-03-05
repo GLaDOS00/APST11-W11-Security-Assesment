@@ -2,7 +2,7 @@
 
 # Export the security settings to a temporary file
 $seceditExportPath = "$env:TEMP\secpol.cfg"
-secedit /export /cfg $seceditExportPath
+secedit /export /cfg $seceditExportPath /quiet
 
 # Function to parse the exported security settings file for a specific policy value
 function Get-SecPolValue {

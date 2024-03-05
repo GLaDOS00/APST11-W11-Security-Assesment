@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Internet Communication Management
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -21,8 +21,11 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath1= "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Printers"
+$RegPath2= "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
 
+# 18.9.20.1.2 (L1) Ensure 'Turn off downloading of print drivers over HTTP' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath1 -valueName "DisableWebPnPDownload" -expectedValue 1 -sectionNumber "18.9.20.1.2" -description "Turn off downloading of print drivers over HTTP" -recommendation "Enabled"
 
-#  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+# 18.9.20.1.6 (L1) Ensure 'Turn off Internet download for Web publishing and online ordering wizards' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath2 -valueName "NoWebServices" -expectedValue 1 -sectionNumber "18.9.20.1.6" -description "Turn off Internet download for Web publishing and online ordering wizards" -recommendation "Enabled"

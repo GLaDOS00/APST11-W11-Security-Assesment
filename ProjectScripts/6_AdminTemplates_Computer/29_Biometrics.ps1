@@ -19,7 +19,7 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics\Facial Features"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Biometrics\FacialFeatures"
 
 
 # 18.10.8.1.1 (L1) Ensure 'Configure enhanced anti-spoofing' is set to 'Enabled'

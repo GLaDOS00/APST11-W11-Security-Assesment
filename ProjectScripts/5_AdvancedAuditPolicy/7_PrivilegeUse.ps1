@@ -22,5 +22,3 @@ if ($auditSensitivePrivilegeUse."Inclusion Setting" -eq "Success and Failure") {
 } else {
     Write-Host "17.8.1 (L1) Ensure 'Audit Sensitive Privilege Use' is set to 'Success and Failure': Non-Compliant"
 }
-
-# End of script

@@ -19,8 +19,8 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Appx"
 
 
 # 18.10.3.2 (L1) Ensure 'Prevent non-admin users from installing packaged Windows apps' is set to 'Enabled'
-Check-GPSetting -policyPath $RegPath -valueName "DisableWindowsConsumerFeatures" -expectedValue 1 -sectionNumber "18.10.3.2" -description "Prevent non-admin users from installing packaged Windows apps" -recommendation "Enabled"
+Check-GPSetting -policyPath $RegPath -valueName "BlockNonAdminUserInstall" -expectedValue 1 -sectionNumber "18.10.3.2" -description "Prevent non-admin users from installing packaged Windows apps" -recommendation "Enabled"

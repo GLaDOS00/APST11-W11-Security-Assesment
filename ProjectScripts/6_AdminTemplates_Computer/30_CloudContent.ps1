@@ -26,4 +26,4 @@ $RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 Check-GPSetting -policyPath $RegPath -valueName "DisableConsumerAccountStateContent" -expectedValue 1 -sectionNumber "18.10.12.1" -description "Turn off cloud consumer account state content" -recommendation "Enabled"
 
 # 18.10.12.3 (L1) Ensure 'Turn off Microsoft consumer experiences' is set to 'Enabled'
-Check-GPSetting -policyPath $RegPath -valueName "DisableCloudOptimizedContent" -expectedValue 1 -sectionNumber "18.10.12.2" -description "Turn off Microsoft consumer experiences" -recommendation "Enabled"
+Check-GPSetting -policyPath $RegPath -valueName "DisableWindowsConsumerFeatures" -expectedValue 1 -sectionNumber "18.10.12.2" -description "Turn off Microsoft consumer experiences" -recommendation "Enabled"

@@ -23,4 +23,4 @@ $RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 
 
 # 18.10.4.1 (L1) Ensure 'Let Windows apps activate with voice while the system is locked' is set to 'Enabled: Force Deny'
-Check-GPSetting -policyPath $RegPath -valueName "LetAppsActivateWithVoice" -expectedValue 2 -sectionNumber "18.10.4.1" -description "Let Windows apps activate with voice while the system is locked" -recommendation "Enabled: Force Deny"
+Check-GPSetting -policyPath $RegPath -valueName "LetAppsActivateWithVoiceAboveLock" -expectedValue 2 -sectionNumber "18.10.4.1" -description "Let Windows apps activate with voice while the system is locked" -recommendation "Enabled: Force Deny"

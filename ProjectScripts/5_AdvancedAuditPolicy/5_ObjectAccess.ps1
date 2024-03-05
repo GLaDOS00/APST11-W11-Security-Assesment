@@ -47,4 +47,3 @@ if ($auditRemovableStorage."Inclusion Setting" -eq "Success and Failure") {
     Write-Host "17.6.4 (L1) Ensure 'Audit Removable Storage' is set to 'Success and Failure': Non-Compliant"
 }
 
-# End of script

@@ -19,4 +19,3 @@ if ($auditCredentialValidation -match "Success and Failure") {
     Write-Host "17.1.1 (L1) Ensure 'Audit Credential Validation' is set to 'Success and Failure': Non-Compliant"
 }
 
-# End of script

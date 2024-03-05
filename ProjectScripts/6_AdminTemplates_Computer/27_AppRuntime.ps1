@@ -19,7 +19,7 @@ function Check-GPSetting {
 }
 
 # Registry Values:
-$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\RuntimeBroker"
+$RegPath= "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
 
 # 18.10.5.1 (L1) Ensure 'Allow Microsoft accounts to be optional' is set to 'Enabled'
-Check-GPSetting -policyPath $RegPath -valueName "AllowMicrosoftAccountsToBeOptional" -expectedValue 1 -sectionNumber "18.10.5.1" -description "Allow Microsoft accounts to be optional" -recommendation "Enabled"
+Check-GPSetting -policyPath $RegPath -valueName "MSAOptional" -expectedValue 1 -sectionNumber "18.10.5.1" -description "Allow Microsoft accounts to be optional" -recommendation "Enabled"

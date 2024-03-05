@@ -55,4 +55,3 @@ if ($auditSystemIntegrity."Inclusion Setting" -eq "Success and Failure") {
     Write-Host "17.9.5 (L1) Ensure 'Audit System Integrity' is set to 'Success and Failure': Non-Compliant"
 }
 
-# End of script

@@ -39,4 +39,3 @@ if ($auditUserAccountManagement."Inclusion Setting" -eq "Success and Failure") {
     Write-Host "17.2.3 (L1) Ensure 'Audit User Account Management' is set to 'Success and Failure': Non-Compliant"
 }
 
-# End of script

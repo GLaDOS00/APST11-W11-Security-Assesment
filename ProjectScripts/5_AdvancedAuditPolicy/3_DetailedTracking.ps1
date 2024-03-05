@@ -31,4 +31,3 @@ if ($auditProcessCreation."Inclusion Setting" -match "Success") {
     Write-Host "17.3.2 (L1) Ensure 'Audit Process Creation' is set to include 'Success': Non-Compliant"
 }
 
-# End of script
