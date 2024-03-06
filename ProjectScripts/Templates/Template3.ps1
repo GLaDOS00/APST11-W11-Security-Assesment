@@ -20,9 +20,9 @@ function Get-SecPolValue {
 
 
 #
-$policyValue = Get-SecPolValue "Value"
-if ($policyValue - ) {
-    Write-Host " : Compliant"
+$policyValue = Get-SecPolValue ""
+if ($policyValue -eq "") {
+    Write-Host ": Compliant"
 } else {
-    Write-Host " : Non-Compliant"
+    Write-Host ": Non-Compliant"
 }
