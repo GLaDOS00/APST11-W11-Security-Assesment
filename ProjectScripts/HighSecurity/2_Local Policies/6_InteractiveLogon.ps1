@@ -37,8 +37,11 @@ Check-GPSetting -policyPath $RegPath1 -valueName "LegalNoticeText" -sectionNumbe
 # 2.3.7.6 (L1) Configure 'Interactive logon: Message title for users attempting to log on'
 Check-GPSetting -policyPath $RegPath1 -valueName "LegalNoticeCaption" -sectionNumber "2.3.7.6" -description "Interactive logon: Message title for users attempting to log on" -recommendation "Configured"
 
+# 2.3.7.7 (L2) Ensure 'Interactive logon: Number of previous logons to cache (in case domain controller is not available)' is set to '4 or fewer logon(s)'
+Check-GPSetting -policyPath $RegPath2 -valueName "CachedLogonsCount" -expectedValue 4 -sectionNumber "2.3.7.7" -description "Interactive logon: Number of previous logons to cache (in case domain controller is not available)" -recommendation "4 or fewer logon(s)"
+
 # 2.3.7.8 (L1) Ensure 'Interactive logon: Prompt user to change password before expiration' is set to 'Between 5 and 14 days'
-Check-GPSetting -policyPath $RegPath2 -valueName "PasswordExpiryWarning" -expectedValue 14 -sectionNumber "2.3.7.8" -description "Interactive logon: Prompt user to change password before expiration" -recommendation ""
+Check-GPSetting -policyPath $RegPath2 -valueName "PasswordExpiryWarning" -expectedValue 14 -sectionNumber "2.3.7.8" -description "Interactive logon: Prompt user to change password before expiration" -recommendation "Between 5 and 14 days"
 
 # 2.3.7.9 (L1) Ensure 'Interactive logon: Smart card removal behavior' is set to 'Lock Workstation' or higher
-Check-GPSetting -policyPath $RegPath2 -valueName "ScRemoveOption" -expectedValue 1 -sectionNumber "2.3.7.9" -description "Interactive logon: Smart card removal behavior" -recommendation ""
+Check-GPSetting -policyPath $RegPath2 -valueName "ScRemoveOption" -expectedValue 1 -sectionNumber "2.3.7.9" -description "Interactive logon: Smart card removal behavior" -recommendation "Lock Workstation"
