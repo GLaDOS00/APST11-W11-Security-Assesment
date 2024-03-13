@@ -62,45 +62,9 @@ function Traverse-And-Execute {
     }
 }
 
-function ParseAndDisplayLogContent {
-    $logContent = Get-Content -Path $logFile
-    $results = @()
-
-    foreach ($line in $logContent) {
-        if ($line -match '(\d+\.\d+\.\d+)\s+\((L\d+)\)\s+Ensure\s+(.*?):\s*(Compliant|Non-Compliant)') {
-            $results += [PSCustomObject]@{
-                SectionNumber = $matches[1]
-                Level = $matches[2]
-                Description = $matches[3]
-                Compliance = $matches[4]
-            }
-        }
-    }
-
-    # Sort results by SectionNumber
-    $sortedResults = $results | Sort-Object { [version]($_.SectionNumber) }
-
-    # Define the path for the formatted log file
-    $formattedLogFile = Join-Path -Path $rootDirectory -ChildPath "CIS_Checks_Formatted_Result.log"
-
-    # Clear or create the formatted log file
-    if (Test-Path $formattedLogFile) {
-        Remove-Item $formattedLogFile
-    }
-
-    # Output sorted results to the formatted log file
-    foreach ($result in $sortedResults) {
-        $formattedOutput = "Section Number: $($result.SectionNumber)`r`nLevel: $($result.Level)`r`nDescription/Recommendation: $($result.Description)`r`nCompliance: $($result.Compliance)`r`n`r`n"
-        Add-Content -Path $formattedLogFile -Value $formattedOutput
-    }
-}
-
-
 $totalScripts = (Get-ChildItem -Path $rootDirectory -Recurse -Filter *.ps1).Count
 $scriptCounter = [ref]1
 
 Traverse-And-Execute -basePath $rootDirectory -totalScripts $totalScripts -scriptCounter $scriptCounter
 Write-Host "CIS Benchmarks Checks completed. Check the log file at $logFile for details."
 
-# After all scripts have been executed and the log file has been generated, parse and display the log content
-ParseAndDisplayLogContent
