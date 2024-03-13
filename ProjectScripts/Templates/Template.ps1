@@ -5,6 +5,7 @@ function Check-GPSetting {
         [string]$valueName,
         [string]$expectedValue,
         [string]$sectionNumber,
+		[string]$level,
         [string]$description,
         [string]$recommendation
     )
@@ -15,7 +16,7 @@ function Check-GPSetting {
         $status = "Compliant"
     }
 
-    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
+    Write-Host "$sectionNumber $level Ensure '$description' is set to '$recommendation': $status"
 }
 
 
@@ -25,4 +26,4 @@ $RegPath= "HKLM:\"
 
 
 #  
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
+Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -level "" -description "" -recommendation ""
