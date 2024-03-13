@@ -15,7 +15,12 @@ function Check-GPSetting {
     if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
         $status = "Compliant"
     }
-
+	    elseif ($currentValue -eq $null) {
+        # If $currentValue is $null, it might mean the service/path does not exist (i.e., not installed)
+        if ($recommendation -like "*Not Installed*") {
+            $status = "Compliant"
+        }
+	}
     Write-Host "$sectionNumber $level Ensure '$description' is set to '$recommendation': $status"
 }
 
@@ -31,7 +36,7 @@ $RegPath6= "$RegPath\IISADMIN"
 $RegPath7= "$RegPath\irmon"
 $RegPath8= "$RegPath\SharedAccess"
 $RegPath9= "$RegPath\lltdsvc"
-$RegPath14= "$RegPath\LxssManager"
+$RegPath10= "$RegPath\LxssManager"
 $RegPath11= "$RegPath\FTPSVC"
 $RegPath12= "$RegPath\MSiSCSI"
 $RegPath13= "$RegPath\sshd"
@@ -41,7 +46,7 @@ $RegPath16= "$RegPath\p2pimsvc"
 $RegPath17= "$RegPath\PNRPAutoReg"
 $RegPath18= "$RegPath\Spooler"
 $RegPath19= "$RegPath\wercplsupport"
-$RegPath24= "$RegPath\RasAuto"
+$RegPath20= "$RegPath\RasAuto"
 $RegPath21= "$RegPath\SessionEnv"
 $RegPath22= "$RegPath\TermService"
 $RegPath23= "$RegPath\UmRdpService"
@@ -96,8 +101,8 @@ Check-GPSetting -policyPath $RegPath8 -valueName "Start" -expectedValue 4 -secti
 # 5.9 (L2) Ensure 'Link-Layer Topology Discovery Mapper (lltdsvc)' is set to 'Disabled'
 Check-GPSetting -policyPath $RegPath9 -valueName "Start" -expectedValue 4 -sectionNumber "5.9" -level "(L2)" -description "Link-Layer Topology Discovery Mapper (lltdsvc)" -recommendation "Disabled"
 
-# 5.14 (L1) Ensure 'LxssManager (LxssManager)' is set to 'Disabled' or 'Not Installed' 
-Check-GPSetting -policyPath $RegPath14 -valueName "Start" -expectedValue 4 -sectionNumber "5.14" -level "(L1)" -description "LxssManager (LxssManager)" -recommendation "Disabled' or 'Not Installed"
+# 5.10 (L1) Ensure 'LxssManager (LxssManager)' is set to 'Disabled' or 'Not Installed'
+Check-GPSetting -policyPath $RegPath10 -valueName "Start" -expectedValue 4 -sectionNumber "5.10" -level "(L1)" -description "LxssManager (LxssManager)" -recommendation "Disabled' or 'Not Installed"
 
 # 5.11 (L1) Ensure 'Microsoft FTP Service (FTPSVC)' is set to 'Disabled' or 'Not Installed' 
 Check-GPSetting -policyPath $RegPath11 -valueName "Start" -expectedValue 4 -sectionNumber "5.11" -level "(L1)" -description "Microsoft FTP Service (FTPSVC)" -recommendation "Disabled' or 'Not Installed"
@@ -126,8 +131,8 @@ Check-GPSetting -policyPath $RegPath18 -valueName "Start" -expectedValue 4 -sect
 # 5.19 (L2) Ensure 'Problem Reports and Solutions Control Panel Support (wercplsupport)' is set to 'Disabled'
 Check-GPSetting -policyPath $RegPath19 -valueName "Start" -expectedValue 4 -sectionNumber "5.19" -level "(L2)" -description "Problem Reports and Solutions Control Panel Support (wercplsupport)" -recommendation "Disabled"
 
-# 5.24 (L2) Ensure 'Remote Access Auto Connection Manager (RasAuto)' is set to 'Disabled' 
-Check-GPSetting -policyPath $RegPath24 -valueName "Start" -expectedValue 4 -sectionNumber "5.24" -level "(L2)" -description "Remote Access Auto Connection Manager (RasAuto)" -recommendation "Disabled"
+#5.20 (L2) Ensure 'Remote Access Auto Connection Manager (RasAuto)' is set to 'Disabled' 
+Check-GPSetting -policyPath $RegPath20 -valueName "Start" -expectedValue 4 -sectionNumber "5.20" -level "(L2)" -description "Remote Access Auto Connection Manager (RasAuto)" -recommendation "Disabled"
 
 # 5.21 (L2) Ensure 'Remote Desktop Configuration (SessionEnv)' is set to 'Disabled' 
 Check-GPSetting -policyPath $RegPath21 -valueName "Start" -expectedValue 4 -sectionNumber "5.21" -level "(L2)" -description "Remote Desktop Configuration (SessionEnv)" -recommendation "Disabled"
@@ -156,8 +161,8 @@ Check-GPSetting -policyPath $RegPath28 -valueName "Start" -expectedValue 4 -sect
 # 5.29 (L2) Ensure 'SNMP Service (SNMP)' is set to 'Disabled' or 'Not Installed' 
 Check-GPSetting -policyPath $RegPath29 -valueName "Start" -expectedValue 4 -sectionNumber "5.29" -level "(L2)" -description "SNMP Service (SNMP)" -recommendation "Disabled"
 
-# 5.34 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not Installed'
-Check-GPSetting -policyPath $RegPath34 -valueName "Start" -expectedValue 4 -sectionNumber "5.34" -level "(L1)" -description "Special Administration Console Helper (sacsvr)" -recommendation "Disabled' or 'Not Installed"
+#5.30 (L1) Ensure 'Special Administration Console Helper (sacsvr)' is set to 'Disabled' or 'Not Installed'
+Check-GPSetting -policyPath $RegPath30 -valueName "Start" -expectedValue 4 -sectionNumber "5.30" -level "(L1)" -description "Special Administration Console Helper (sacsvr)" -recommendation "Disabled' or 'Not Installed"
 
 # 5.31 (L1) Ensure 'SSDP Discovery (SSDPSRV)' is set to 'Disabled' 
 Check-GPSetting -policyPath $RegPath31 -valueName "Start" -expectedValue 4 -sectionNumber "5.31" -level "(L1)" -description "SSDP Discovery (SSDPSRV)" -recommendation "Disabled"
@@ -186,8 +191,8 @@ Check-GPSetting -policyPath $RegPath38 -valueName "Start" -expectedValue 4 -sect
 # 5.39 (L2) Ensure 'Windows PushToInstall Service (PushToInstall)' is set to 'Disabled'
 Check-GPSetting -policyPath $RegPath39 -valueName "Start" -expectedValue 4 -sectionNumber "5.39" -level "(L2)" -description "Windows PushToInstall Service (PushToInstall)" -recommendation "Disabled"
 
-# 5.44 (L2) Ensure 'Windows Remote Management (WS-Management) (WinRM)' is set to 'Disabled' 
-Check-GPSetting -policyPath $RegPath44 -valueName "Start" -expectedValue 4 -sectionNumber "5.44" -level "(L2)" -description "Windows Remote Management (WS-Management) (WinRM)" -recommendation "Disabled"
+#5.40 (L2) Ensure 'Windows Remote Management (WS-Management) (WinRM)' is set to 'Disabled' 
+Check-GPSetting -policyPath $RegPath44 -valueName "Start" -expectedValue 4 -sectionNumber "5.40" -level "(L2)" -description "Windows Remote Management (WS-Management) (WinRM)" -recommendation "Disabled"
 
 # 5.41 (L1) Ensure 'World Wide Web Publishing Service (W3SVC)' is set to 'Disabled' or 'Not Installed' 
 Check-GPSetting -policyPath $RegPath41 -valueName "Start" -expectedValue 4 -sectionNumber "5.41" -level "(L1)" -description "World Wide Web Publishing Service (W3SVC)" -recommendation "Disabled' or 'Not Installed"

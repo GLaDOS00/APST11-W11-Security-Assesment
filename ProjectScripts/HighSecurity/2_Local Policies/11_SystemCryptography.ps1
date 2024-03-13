@@ -15,7 +15,7 @@ function Check-GPSetting {
         $status = "Compliant"
     }
 
-    Write-Host "$sectionNumber (L1) Ensure '$description' is set to '$recommendation': $status"
+    Write-Host "$sectionNumber (L2) Ensure '$description' is set to '$recommendation': $status"
 }
 
 
