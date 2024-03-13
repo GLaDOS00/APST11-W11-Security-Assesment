@@ -235,6 +235,22 @@ if ($policyValue27 -eq $null) {
     Write-Host "2.2.27 (L1) Ensure 'Lock pages in memory' is set to 'No One': Non-Compliant"
 }
 
+# 2.2.28 (L2) Ensure 'Log on as a batch job' is set to 'Administrators'
+$policyValue28 = Get-SecPolValue "SeBatchLogonRight"
+if ($policyValue28 -eq "*S-1-5-32-544") {
+    Write-Host "2.2.28 (L2) Ensure 'Log on as a batch job' is set to 'Administrators': Compliant"
+} else {
+    Write-Host "2.2.28 (L2) Ensure 'Log on as a batch job' is set to 'Administrators': Non-Compliant"
+}
+
+# 2.2.29 (L2) Ensure 'Log on as a service' is set to ‘No One’
+$policyValue29 = Get-SecPolValue "SeServiceLogonRight"
+if ($policyValue29 -eq $null) {
+    Write-Host "2.2.29 (L2) Ensure 'Log on as a service' is set to ‘No One’: Compliant"
+} else {
+    Write-Host "2.2.29 (L2) Ensure 'Log on as a service' is set to ‘No One’: Non-Compliant"
+}
+
 # 2.2.30 (L1) Ensure 'Manage auditing and security log' is set to 'Administrators'
 $policyValue30 = Get-SecPolValue "SeSecurityPrivilege"
 if ($policyValue30 -eq "*S-1-5-32-544") {
