@@ -25,4 +25,4 @@ $RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\NetworkProvider\HardenedPat
 
 
 # 18.6.14.1 (L1) Ensure 'Hardened UNC Paths' is set to 'Enabled, with "Require Mutual Authentication" and "Require Integrity" set for all NETLOGON and SYSVOL shares'
-Check-GPSetting -policyPath $RegPath -valueName "\\*\NETLOGON" -expectedValue 1 -sectionNumber "18.6.14.1" -description "Hardened UNC Paths" -recommendation "Enabled, with "Require Mutual Authentication" and "Require Integrity" set for all NETLOGON and SYSVOL shares"
+Check-GPSetting -policyPath $RegPath -valueName "\\*\NETLOGON" -expectedValue 1 -sectionNumber "18.6.14.1" -description "Hardened UNC Paths" -recommendation "Enabled, with 'Require Mutual Authentication' and 'Require Integrity' set for all NETLOGON and SYSVOL shares"

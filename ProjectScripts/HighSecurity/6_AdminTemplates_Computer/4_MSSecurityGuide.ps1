@@ -47,4 +47,4 @@ Check-GPSetting -policyPath $RegPath5 -valueName "DisableExceptionChainValidatio
 Check-GPSetting -policyPath $RegPath6 -valueName "NodeType" -expectedValue 4 -sectionNumber "18.4.6" -description "NetBT NodeType configuration" -recommendation "Enabled: P-node"
 
 # 18.4.7 (L1) Ensure 'WDigest Authentication' is set to 'Disabled'
- Check-GPSetting -policyPath $RegPath7 -valueName "UseLogonCredential" -expectedValue 0 -sectionNumber "18.4.7" -description "WDigest Authentication" -recommendation "Disabled"
+Check-GPSetting -policyPath $RegPath7 -valueName "UseLogonCredential" -expectedValue 0 -sectionNumber "18.4.7" -description "WDigest Authentication" -recommendation "Disabled"
