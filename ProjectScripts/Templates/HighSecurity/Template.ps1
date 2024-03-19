@@ -20,7 +20,6 @@ function Check-GPSetting {
 }
 
 
-
 # Registry Values:
 $RegPath= "HKLM:\"
 
