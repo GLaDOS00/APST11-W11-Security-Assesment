@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Locale Services
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -21,8 +21,8 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Control Panel\International"
 
 
-# 
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -level "" -description "" -recommendation ""
+# 18.9.26.1 (L2) Ensure 'Disallow copying of user input methods to the system account for sign-in' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "BlockUserInputMethodsForSignIn" -expectedValue 1 -sectionNumber "18.9.26.1" -level "(L2)" -description "Disallow copying of user input methods to the system account for sign-in" -recommendation "Enabled"

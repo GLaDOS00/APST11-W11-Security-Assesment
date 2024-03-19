@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - User Profiles
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -21,8 +21,8 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo"
 
 
-# 
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -level "" -description "" -recommendation ""
+# 18.9.48.1 (L2) Ensure 'Turn off the advertising ID' is set to 'Enabled'
+Check-GPSetting -policyPath $RegPath -valueName "DisabledByGroupPolicy" -expectedValue 1 -sectionNumber "18.9.48.1" -level "(L2)" -description "Turn off the advertising ID" -recommendation "Enabled"

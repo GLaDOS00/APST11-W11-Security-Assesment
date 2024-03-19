@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function to check the status of: Administrative Templates (Computer) - Troubleshooting & Diagnostics
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -21,8 +21,8 @@ function Check-GPSetting {
 
 
 # Registry Values:
-$RegPath= "HKLM:\"
+$RegPath= "HKLM:\SOFTWARE\Policies\Microsoft\Windows\ScriptedDiagnosticsProvider\Policy"
 
 
-# 
-Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -level "" -description "" -recommendation ""
+# 18.9.46.5.1 (L2) Ensure 'Microsoft Support Diagnostic Tool: Turn on MSDT interactive communication with support provider' is set to 'Disabled'
+Check-GPSetting -policyPath $RegPath -valueName "DisableQueryRemoteServer" -expectedValue 0 -sectionNumber "18.9.46.5.1" -level "(L2)" -description "'Microsoft Support Diagnostic Tool: Turn on MSDT interactive communication with support provider" -recommendation "Disabled"
