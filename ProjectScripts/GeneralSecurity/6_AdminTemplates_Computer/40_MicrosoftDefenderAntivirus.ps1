@@ -34,9 +34,6 @@ Check-GPSetting -policyPath $RegPath1 -valueName "LocalSettingOverrideSpynetRepo
 # 18.10.43.6.1.1 (L1) Ensure 'Configure Attack Surface Reduction rules' is set to 'Enabled'
 Check-GPSetting -policyPath $RegPath2 -valueName "ExploitGuard_ASR_Rules" -expectedValue 1 -sectionNumber "18.10.43.6.1.1" -description "Configure Attack Surface Reduction rules" -recommendation "Enabled"
 
-# 18.10.43.6.1.2 (L1) Ensure 'Configure Attack Surface Reduction rules: Set the state for each ASR rule' is configured
-Check-GPSetting -policyPath $RegPath3 -valueName "" -expectedValue 1 -sectionNumber "18.10.43.6.1.2" -description "Configure Attack Surface Reduction rules: Set the state for each ASR rule" -recommendation "Configure"
-
 # 18.10.43.6.3.1 (L1) Ensure 'Prevent users and apps from accessing dangerous websites' is set to 'Enabled: Block'
 Check-GPSetting -policyPath $RegPath4 -valueName "EnableNetworkProtection" -expectedValue 1 -sectionNumber "18.10.43.6.3.1" -description "Prevent users and apps from accessing dangerous websites" -recommendation "Enabled: Block"
 
