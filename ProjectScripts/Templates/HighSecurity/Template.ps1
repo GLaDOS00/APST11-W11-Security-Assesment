@@ -5,7 +5,7 @@ function Check-GPSetting {
         [string]$valueName,
         [string]$expectedValue,
         [string]$sectionNumber,
-	[string]$level,
+		[string]$level,
         [string]$description,
         [string]$recommendation
     )
