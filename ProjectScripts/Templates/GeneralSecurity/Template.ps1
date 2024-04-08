@@ -1,4 +1,4 @@
-# Function to check the status of:  - 
+# Function Definition to check the status of:  - 
 function Check-GPSetting {
     param (
         [string]$policyPath,
@@ -19,10 +19,8 @@ function Check-GPSetting {
 }
 
 
-
 # Registry Values:
 $RegPath= "HKLM:\"
 
-
-#  
+# Function call
 Check-GPSetting -policyPath  -valueName "" -expectedValue  -sectionNumber "" -description "" -recommendation ""
