@@ -25,7 +25,7 @@ $currentUserName = $env:USERNAME
 $userSID = (Get-WmiObject -Class Win32_UserAccount -Filter "Name = '$currentUserName'").SID
 
 # Corrected Registry Path:
-$RegPath= "Registry::HKEY_USERS\$userSID\Software\Policies\Microsoft\Windows\Control Panel\Desktop"
+$RegPath= "Registry::HKEY_USERS\$userSID\Control Panel\Desktop"
 
 # 19.1.3.1 (L1) Ensure 'Enable screen saver' is set to 'Enabled'
 Check-GPSetting -policyPath $RegPath -valueName "ScreenSaveActive" -expectedValue 1 -sectionNumber "19.1.3.1" -description "Enable screen saver" -recommendation "Enabled"
