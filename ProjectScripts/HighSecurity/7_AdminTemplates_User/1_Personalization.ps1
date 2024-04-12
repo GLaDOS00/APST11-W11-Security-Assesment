@@ -9,7 +9,7 @@ function Check-GPSetting {
         [string]$recommendation
     )
 
-    $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName 
+    $currentValue = Get-ItemProperty -Path $policyPath -Name $valueName -ErrorAction SilentlyContinue
     $status = "Non-Compliant"
     if ($currentValue -ne $null -and $currentValue.$valueName -eq $expectedValue) {
         $status = "Compliant"
